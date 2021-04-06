@@ -23,3 +23,6 @@ def home(request):
     # return render(request,'home.html')
 # 3. 把菜单作为后台唯一能返回的html，也就是唯一的render函数内的那个html参数。
 # 然后在菜单welcome.html 中 把其他各个页面都当作一个子页面 一个来引入。
+
+def login(request):
+    return render(request,'login.html')

@@ -28,4 +28,5 @@ urlpatterns = [
 #     这是标准的正则写法。目的是获取url中的这俩个变量。
 # 这个url后面的俩段，并不是写死的一成不变的。而是一个变量，对应的是我们welcome.html中的 whichHTML 和  oid
 #   <int:xx>  能用
+    url('login',login)
 ]
