@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/201908059658/css/normalize.css" /><!--CSS RESET-->
+	<link rel="stylesheet" type="text/css" href="/static/201908059658/css/htmleaf-demo.css"><!--演示页面样式，使用时可以不引用-->
+	<!--awesome font include-->
+        <link type="text/css" rel="stylesheet" href="/static/201908059658/assets/css/font-awesome.min.css" />
+        <!--include plugin css-->
+        <link type="text/css" rel="stylesheet" href="/static/201908059658/src/jquery-rvnm.css" />
+</head>
+<body>
+
+
+    <nav id="navbar" class="">
+                <ul>
+
+<!--                    这是第二个标签-->
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-bell-o"></i>
+<!--                            i 代表的图标-->
+                            项目管理
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="/xiangmu_list/">
+                                    项目列表
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/jiekou_list/">
+                                    接口库
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/case_list/">
+                                    用例库
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+<!--                    第二个标签-->
+
+                </ul>
+
+            </nav>
+    <button id="menu_btn" onclick="display_menu()" style="margin-left: 220px">隐藏</button>
+
+    <script src="/static/201908059658/js/jquery-1.11.0.min.js" type="text/javascript"></script>
+        <!--include plugin js-->
+        <script type="text/javascript" src="/static/201908059658/src/jquery-rvnm.js"></script>
+        <!--js run code-->
+    <script type="text/javascript">
+            $(function () {
+                var rvnMenu = $("#navbar").rvnm({
+    //                    mode: 'mobile',
+    //                    responsive: false,
+                    searchable: true,
+                    theme: 'dark-lesb'
+                });
+                console.log(rvnMenu);
+    //                rvnMenu.setMode('minimal');
+                rvnMenu.setTheme('dark-ruby');
+            });
+        </script>
+
+    <script>
+        function display_menu(){
+            menu = document.getElementById('navbar');
+            btn = document.getElementById('menu_btn');
+            if(btn.innerText == '隐藏'){
+                menu.style.display = 'none';
+                btn.style.marginLeft = '0px';
+                btn.innerText = '显示'
+            }else{
+                menu.style.display = 'block';
+                btn.style.marginLeft = '217px';
+                btn.innerText = '隐藏'
+            }
+
+
+<!--            这句的意思是 修改menu的style属性中的display属性。把其值改为none。display属性就是控制元素是否显示隐藏的属性，none就是隐藏，block就是显示。js代码均要以;分号结尾。-->
+        }
+    </script>
+
+    <button style="float: right;height:35px;width:100px;background-color:#353c48;
+color:white;border-radius:0px 0px 0px 10px;font-size:large">主页</button>
+<!--    TODO-->
+    <div id="page1">
+
+    </div>
+    <script>
+        $('#page1').load('/child/'+'{{ whichHTML }}/{{ oid }}/')
+    </script>
+</body>
+</html>
