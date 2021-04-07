@@ -19,14 +19,26 @@ from TestJKZDH.views import *
 from django.conf.urls import url
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('welcome',welcome),
-    path('home',home),
-    # re_path("^/child/(?P<eid>.+)", child)
-    # path(r"^child/(?P<eid>.+)/(?P<oid>.*)/$", child),
-    url(r"^child/(?P<eid>.+)",child),  # 返回子页面
-#     这是标准的正则写法。目的是获取url中的这俩个变量。
-# 这个url后面的俩段，并不是写死的一成不变的。而是一个变量，对应的是我们welcome.html中的 whichHTML 和  oid
-#   <int:xx>  能用
-    url('login',login)
+    url(r'^admin/', admin.site.urls),
+    url(r'^welcome/$',welcome) , #获取菜单
+    url(r'^$',home),
+    url(r'^home/$', home),  # 进入首页
+    url(r"^child/(?P<eid>.+)/$",child),  # 返回子页面
+    url(r'^login/$', login),  # 进入登陆页面
+    url(r'^login_action/$', login_action),  # 登陆
+    url(r'^register_action/$',register_action),
+    url(r'^accounts/login/$',login)
+
+
+#     path('admin/', admin.site.urls),
+#     path('welcome',welcome),
+#     path('home',home),
+#     # re_path("^/child/(?P<eid>.+)", child)
+#     # path(r"^child/(?P<eid>.+)/(?P<oid>.*)/$", child),
+#     url(r"^child/(?P<eid>.+)",child),  # 返回子页面
+# #     这是标准的正则写法。目的是获取url中的这俩个变量。
+# # 这个url后面的俩段，并不是写死的一成不变的。而是一个变量，对应的是我们welcome.html中的 whichHTML 和  oid
+# #   <int:xx>  能用
+#     url('login',login),
+#     url(r'^login_action/$', login_action),
 ]

@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <title>测试平台登录</title>
     <style>
-<!--    加载图片-->
          body{
-            background: url("/static/login.jpg");
+            background: url("/static/201908059658/src/img/login.jpg");
             background-attachment: fixed;
             background-size: cover;
         }
@@ -25,12 +24,12 @@
         span{
             color: #f25e78;
         }
-    </style>
-     <script src="/static/201908059658/js/jquery-1.11.0.min.js" type="text/javascript"></script>
+</style>
+    <script src="/static/201908059658/js/jquery-1.11.0.min.js" type="text/javascript"></script>
 
 </head>
 <body>
-
+<br>
     <div style="box-shadow: 4px 4px 6px #2a262a;margin-left: -webkit-calc(50% - 150px);width: 300px;background-color: white; opacity:0.8;border-radius: 20px;text-align: center">
         <br>
         <strong><span style="font-size: xx-large;">接口测试平台</span></strong>
@@ -40,6 +39,7 @@
 
             <input id="username" type="text" class="wqrf_input" placeholder="用户名">
             <br><br>
+<!--        type = “password”   默认隐藏了密码，隐士-->
             <input id="password" type="password" class="wqrf_input" placeholder="密码">
 
         <br><br><br>
@@ -49,7 +49,7 @@
         <br><br>
     </div>
 
-
+<!--register实现的是当前页面，不跳转，直接从login的界面注册账户 将username和password传入到后端register_action方法内，进行写入数据库-->
 <script>
     function register() {
         username = document.getElementById('username').value;
@@ -75,9 +75,12 @@
             }
         })
     }
-</script>
 
+</script>
+<!--  login的方法中，ret的返回值，传入前端，由前端判断，转向的页面跳转，不用在后端的具体实现 -->
 
 
 </body>
 </html>
+
+
