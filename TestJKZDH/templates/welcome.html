@@ -31,12 +31,17 @@
                             </li>
                             <li>
                                 <a href="/jiekou_list/">
-                                    接口库
+                                    接口调试
                                 </a>
                             </li>
                             <li>
                                 <a href="/case_list/">
-                                    用例库
+                                    帮助
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/" target="_blank">
+                                    后台
                                 </a>
                             </li>
 
@@ -85,10 +90,17 @@
         }
     </script>
     <!--            这句的意思是 修改menu的style属性中的display属性。把其值改为none。display属性就是控制元素是否显示隐藏的属性，none就是隐藏，block就是显示。js代码均要以;分号结尾。-->
-    <a href="/home">
+    <div style="float:right">
+        <a href="/home">
         <button style="float: right;height:35px;width:100px;background-color:#353c48;
         color:white;border-radius:0px 0px 0px 10px;font-size:large">主页</button>
     </a>
+        <br>
+        <a href="/logout">
+        <button style="float: right;height:35px;width:100px;background-color:#353c48;
+        color:white;border-radius:0px 0px 0px 10px;font-size:large">退出</button>
+    </a>
+    </div>
 
 <!--&lt;!&ndash;    TODO  想用通过home方法-》welcome.html&ndash;&gt; 实现在一个页面中加载另外一个页面的功能，在由urls里面的正则匹配到具体的home.html,在由子请求去加载前端的页面-->
     <div id="page1">

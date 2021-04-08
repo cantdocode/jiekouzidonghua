@@ -4,7 +4,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
-
+from TestJKZDH.models import *
 
 @login_required
 def welcome(request):
@@ -65,3 +65,20 @@ def register_action(request):
         return HttpResponse("注册成功")
     except:
         return HttpResponse("注册失败~用户名好像存在")
+
+def logout(request):
+    from django.contrib import auth
+    auth.logout(request)
+    return HttpResponseRedirect('/login/')
+
+# 通过钉钉的机器人发消息 ，此方法比较实时。很快速。而且不用存放在我们平台的数据库，省空间。但是操作起来需要钉钉里面群里添加机器人-发送接口 ，初次使用会很蒙蔽。
+# 发短信/邮件，此方法也可以，但是就是有点小题大做。而且调取短信接口花钱，发送邮件代码不是很好写。有兴趣的可以自己这么做
+# 存放在django平台的数据库中，给创建个吐槽表，然后管理员可以去后台随时查看，以后我们还可以利用这些吐槽做个弹幕.....  而且这里我正好可以给大家讲一下，如何新建一个表 和 如何操作这个表 的技术。
+def pei(request):
+    print("request"+"-----------------------")
+    print(request)
+    print("request" + "-----------------------")
+    tucao_text = request.GET['tucao_text']
+    # 我们本来有4个字段：id user text ctime ,因为id为自动创建不用我们操心，ctime也是自动填入也不用我们操心，所以我们这里只写user 和 text即可
+    DB_tucao.objects.create(user=request.user.username,text=tucao_text)
+    return HttpResponse("")

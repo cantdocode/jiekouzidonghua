@@ -27,7 +27,9 @@ urlpatterns = [
     url(r'^login/$', login),  # 进入登陆页面
     url(r'^login_action/$', login_action),  # 登陆
     url(r'^register_action/$',register_action),
-    url(r'^accounts/login/$',login)
+    url(r'^accounts/login/$',login),
+    url(r'^logout/$',logout),
+    url(r'^pei/$',pei)
 
 
 #     path('admin/', admin.site.urls),
