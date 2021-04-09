@@ -25,17 +25,17 @@
                         </a>
                         <ul>
                             <li>
-                                <a href="/xiangmu_list/">
+                                <a href="/#/">
                                     项目列表
                                 </a>
                             </li>
                             <li>
-                                <a href="/jiekou_list/">
+                                <a href="/#/">
                                     接口调试
                                 </a>
                             </li>
                             <li>
-                                <a href="/case_list/">
+                                <a href="/help/">
                                     帮助
                                 </a>
                             </li>
@@ -107,7 +107,13 @@
 
     </div>
     <script>
-        $('#page1').load('/child/'+'{{ whichHTML }}')
+        $('#page1').load('/child/'+'{{ whichHTML }}/{{ oid }}')
+    </script>
+
+    <script>
+        if("{{whichHTML}}" != "home.html"){
+            document.getElementById("menu_btn").click();
+        }
     </script>
 </body>
 </html>

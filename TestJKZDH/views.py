@@ -15,16 +15,26 @@ def welcome(request):
     # return HttpResponse("欢迎来到主页");
     return render(request,"welcome.html")
 
-def child(request,eid):
+def child(request,eid,oid):
     print("request------------" + "child")
     print(eid)
-    return render(request,eid)
+    res = child_json(eid,oid)
+    return render(request,eid,res)
+def child_json(eid,oid=""):
+    if eid == "home.html":
+        # 数据格式其实是queryset
+        data = DB_home_href.objects.all();
+        res = {"hrefs":data}
+        return res
+
+
+
 # 为了不放行在未进行登陆的状况下就进入主页  需要加上 @login_required
 
 # @login_required
 def home(request):
     print("request---------------"+"home")
-    return render(request,'welcome.html',{"whichHTML": "home.html"})
+    return render(request,'welcome.html',{"whichHTML": "home.html","oid":request.user.id})
     # return render(request,'home.html')
 # 3. 把菜单作为后台唯一能返回的html，也就是唯一的render函数内的那个html参数。
 # 然后在菜单welcome.html 中 把其他各个页面都当作一个子页面 一个来引入。
@@ -82,3 +92,6 @@ def pei(request):
     # 我们本来有4个字段：id user text ctime ,因为id为自动创建不用我们操心，ctime也是自动填入也不用我们操心，所以我们这里只写user 和 text即可
     DB_tucao.objects.create(user=request.user.username,text=tucao_text)
     return HttpResponse("")
+
+def api_help(request,oid=""):
+    return render(request,"welcome.html",{"whichHTML":"help.html","oid":request.user.id})

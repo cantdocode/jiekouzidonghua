@@ -15,4 +15,12 @@ class DB_tucao(models.Model):
     # 3.吐槽内容
     # 4.吐槽时间
 
+class DB_home_href(models.Model):
+    name = models.CharField(max_length=300,null=True) # 超链接的名字
+    href = models.CharField(max_length=2000,null=True) # 超链接
+
+    def __str__(self):
+            return self.name
+
+
 

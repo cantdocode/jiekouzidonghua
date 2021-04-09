@@ -23,13 +23,14 @@ urlpatterns = [
     url(r'^welcome/$',welcome) , #获取菜单
     url(r'^$',home),
     url(r'^home/$', home),  # 进入首页
-    url(r"^child/(?P<eid>.+)/$",child),  # 返回子页面
+    url(r"^child/(?P<eid>.+)/(?P<oid>.+)/$",child),  # 返回子页面
     url(r'^login/$', login),  # 进入登陆页面
     url(r'^login_action/$', login_action),  # 登陆
     url(r'^register_action/$',register_action),
     url(r'^accounts/login/$',login),
     url(r'^logout/$',logout),
-    url(r'^pei/$',pei)
+    url(r'^pei/$',pei),
+    url(r'^help/$',api_help)
 
 
 #     path('admin/', admin.site.urls),
