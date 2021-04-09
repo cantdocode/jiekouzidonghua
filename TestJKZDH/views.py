@@ -21,11 +21,15 @@ def child(request,eid,oid):
     res = child_json(eid,oid)
     return render(request,eid,res)
 def child_json(eid,oid=""):
+    res = {}
     if eid == "home.html":
         # 数据格式其实是queryset
         data = DB_home_href.objects.all();
         res = {"hrefs":data}
-        return res
+    if eid == 'project_list.html':
+        data = DB_project.objects.all();
+        res = {"projects": data}
+    return res
 
 
 
@@ -95,3 +99,6 @@ def pei(request):
 
 def api_help(request,oid=""):
     return render(request,"welcome.html",{"whichHTML":"help.html","oid":request.user.id})
+
+def project_list(request):
+    return render(request,"welcome.html",{"whichHTML":"project_list.html","oid":request.user.id})

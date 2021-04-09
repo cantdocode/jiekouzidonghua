@@ -83,3 +83,14 @@ child方法中，统一返回
     项目其他管理员
 
 实现21:项目列表
+首先models.py 创建项目表
+迁移完成，注册两个项目列表在后台
+
+实现22： 项目列表前后端
+
+// 问题   child_json  出现了问题，res需要初始，要不然下面的没有访问路径没有定义，则不能狗返回数据
+先将数据都取出来，新建一个project_list.html  负责展示， url路由注册上
+后端views写上，因为所有的展示都嵌套在welcome上面，所以return render(request,welcome.html,{whichHTML,oid参数传递})
+
+通过使用bootstrap工具，加入table元素，使得project_list  被插件加载好，总插件放置的位置是welocome因为要控制全局
+项目列表的展示，也需要能够进入项目或者删除项目

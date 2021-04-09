@@ -30,7 +30,8 @@ urlpatterns = [
     url(r'^accounts/login/$',login),
     url(r'^logout/$',logout),
     url(r'^pei/$',pei),
-    url(r'^help/$',api_help)
+    url(r'^help/$',api_help),
+    url(r'^project_list/$',project_list)
 
 
 #     path('admin/', admin.site.urls),
