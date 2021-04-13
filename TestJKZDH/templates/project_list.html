@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>项目列表</title>
+
+
     <style>
+        .btn{
+            background-color:orange;
+        }
+
+        #add_project_div{
+            background-color:grey;
+        }
+
         body{
             background: url("/static/201908059658/src/img/home.jpg");
             background-attachment: fixed;
@@ -12,7 +22,13 @@
 </style>
 </head>
 <body>
+    <h3 style="padding-left: 10px;color: #353c48">项目列表：<span style="font-size: small;color: blue;">（这里显示全部项目,您可以进入他人的项目中查看）</span></h3>
+
     <h1>数据展示区</h1>
+    <button class="top_btn" onclick="javascript:document.getElementById('add_project_div').style.display='block'" style="border-left: 10px solid black;border-right: 10px solid black;border-top: 0;
+    position: fixed;top: 0px;left: -webkit-calc(50% - 75px);width: 150px;height: 40px;font-size: x-large;background-color: white;color:black ;
+    border-radius: 0px 0px 10px 10px;">新增项目</button>
+
 
 
     <!--为了展示好看，使用table-->
@@ -27,11 +43,43 @@
         <tbody>
             {% for i in projects %}
             <tr>
-                <td>{{ i.id }}</td><td>{{ i.name }}</td><td>{{ i.user }}</td><td>{{ i.remark }}</td><td><button>进入</button><button>删除</button></td><br>
+                <td>{{ i.id }}</td><td>{{ i.name }}</td><td>{{ i.user }}</td><td>{{ i.remark }}</td><td><button onclick="javascript:document.location.href='/apis/{{ i.id }}/'" class="btn btn-success">进入</button><button class="btn btn-danger" onclick="delete_project('{{ i.id }}')">删除</button></td><br>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+<!--这时候如果点击取消，那么这个confirm方法会返回一个false,如果点击确定，那么就返回true-->
+    <script>
+        function delete_project(id){
+            if(confirm('确定是否要删除该项目')==false){return}
+            $.get('/delete_project/',{
+                'id':id
+            },function(ret){
+                document.location.reload()
+            })
+        }
+    </script>
+
+    <div id="add_project_div" style="width: 50%;backgrround-color:white;border:1px solid black;position: absolute;left:25%;top:30px;padding-left:10px;box-shadow;4px 4px 8px grey;border-radius:5px;display:none">
+        <h3>项目名称:(最多100字)</h3>
+        <input id="project_name" type="text" placeholder="请输入项目名字" style="width: 95%">
+        <br><br>
+        <button class="btn btn-danger" onclick="javascript:document.getElementById('add_project_div').style.display='none'">取消</button>
+        <button onclick="add_project()" class="btn btn-success">确定</button>
+        <br><br>
+    </div>
+
+    <script>
+        function add_project(){
+            project_name = document.getElementById('project_name').value;
+            $.get('/add_project/',{
+                'project_name':project_name,
+            },function (ret){
+                document.location.reload();
+            })
+        }
+    </script>
+
 
 
 </body>
