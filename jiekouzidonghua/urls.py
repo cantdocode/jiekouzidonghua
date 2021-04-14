@@ -38,6 +38,10 @@ urlpatterns = [
     url(r'^cases/(?P<id>.*)/$',open_cases),
     url(r'^project_set/(?P<id>.*)/$',open_project_set),
     url(r'^save_project_set/(?P<id>.*)/$',save_project_set),
+    url(r'^save_bz/$',save_bz),
+    url(r'^open_bz/$',open_bz),
+
+
 
 
 

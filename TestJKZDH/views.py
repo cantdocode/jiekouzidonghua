@@ -32,7 +32,8 @@ def child_json(eid,oid=""):
         res = {"projects": data}
     if eid == 'P_apis.html':
         project_name = DB_project.objects.filter(id=oid)[0]
-        res = {"project_name":project_name}
+        apis = DB_apis.objects.filter(project_id=oid)
+        res = {"project_name":project_name,"apis":apis}
     if eid == 'P_cases.html':
         project_name = DB_project.objects.filter(id=oid)[0]
         res = {"project_name":project_name}
@@ -143,3 +144,14 @@ def save_project_set(request,id):
     other_user = request.GET['other_user']
     DB_project.objects.filter(id=id).update(name=name,remark=remark,other_user=other_user)
     return HttpResponse('')
+
+def save_bz(request):
+    api_id = request.GET['api_id']
+    bz_value = request.GET['bz_value']
+    DB_apis.objects.filter(id=api_id).update(des=bz_value)
+    return HttpResponse('')
+
+def open_bz(request):
+    api_id = request.GET['api_id']
+    bz_value = DB_apis.objects.filter(id=api_id)[0].des
+    return HttpResponse(bz_value)

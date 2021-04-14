@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .wqrf_button{
+            background-color: #0fd1ab;
+            border-radius: 5px;
+            border: 1px solid #353c48;
+            box-shadow: 4px 4px 4px grey;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,6 +30,221 @@
     </div>
 </nav>
 
+<br>
+<br>
 
+<table class="table table-striped">
+    <!--     表头-->
+        <thead>
+            <tr>
+                <th>id</th><th>接口名称</th><th>操作</th>
+            </tr>
+        </thead>
+    <!--    具体内容-->
+        <tbody>
+            {% for i in apis %}
+            <tr>
+                <td>{{ i.id }}</td><td>{{ i.name }}</td><td>{{ i.api_url }}</td><td>{{ i.remark }}</td><td><button onclick="" class="btn btn-success">调试</button>
+                <button onclick="open_bz('{{ i.id }}')" class="wqrf_button">备注</button>
+                <button class="wqrf_button">复制</button>
+                <button class="wqrf_button">异常值测试</button>
+                <button class="btn btn-danger" onclick="">删除</button></td><br>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+<div id="bz" style="display:none;width:50%;height:30%;position:fixed;left:25%;top 35%;background-color;#3c4043;box-shadow:4px 4px 8px grey">
+    <input id="which_api" type="text" style="display: none">
+    <textarea name="" id="bz_value" style="width:100%;height:80%" placeholder="请输入该接口备注"></textarea>
+    <button onclick="save_bz()" style="width: 49.9%;height:20%">保存</button>
+    <button onclick="close_bz()" style="width: 49.9%;height:20%">取消</button>
+<!--    注意其中有个隐藏的input，
+这个是用来存储我们打开的接口的id的，
+以便我们点击保存按钮的时候，
+系统知道是要保存哪个接口的备注。
+注意这个div本体也要隐藏，
+只是为了方便调试，
+我们在最后才加上隐藏属性。-->
+</div>
+{# 调试弹层及函数 #}
+<div id="ts" style="display: block;border-radius:5px;width: 80%;
+position: absolute;left: 10%;top: 10%;background-color: #3c4043;box-shadow: 4px 4px 8px grey;
+color: white;padding-left: 10px;">
+
+    <div class="btn-group" style="float: right">
+        <button onclick="ts_save()" type="button" class="btn btn-success">保存</button>
+        <button onclick="ts_close()" type="button" class="btn btn-default">取消</button>
+    </div>
+    <h4>接口: <small style="color: greenyellow" id="ts_api_id"></small>-
+    <input placeholder="请在此输入接口名称" type="text" id="ts_api_name" style="padding-left: 5px;width: 50%;color: #329104">
+    </h4>
+    <ul class="nav navbar-nav" style="width: 98%">
+        <li>
+            <select id="ts_method" style="height: 40px;" class="form-control">
+                <option value="none"> 请求方式</option>
+                <option value="post" > POST</option>
+                <option value="get" > GET</option>
+                <option value="put" > PUT</option>
+                <option value="delete"> DELETE</option>
+            </select>
+        </li>
+
+        <li style="width: -webkit-calc(100% - 225px)">
+            <input id="ts_url" style="color: black;padding-left: 10px;width: 100%;height: 40px;" type="text" placeholder='url: 如 /abcd/efgh/' value="">
+        </li>
+
+        <li >
+            <button onclick="ts_send()" type="button"
+                    style="height: 40px;width: 120px;"
+                    class="btn btn-default"><span style="font-size: large">Send</span></button>
+        </li>
+    </ul>
+    <br><br><br>
+    <ul class="nav navbar-nav" style="width: 98%">
+        <li style=" width: -webkit-calc(100% - 63px)">
+             <input id="ts_host"  style="color: black;padding-left: 10px;width: 100%;height: 40px;" type="text" placeholder='host: 如http(s)://xxxx.ccc.com' value="">
+        </li>
+         <li >
+            <button type="button"
+                    style="height: 40px;width: 60px;"
+                    class="btn btn-default"><span>Clear</span></button>
+        </li>
+    </ul>
+
+    <br><br><br>
+
+    <ul class="nav navbar-nav" style="width: 98%">
+        <li style="width:  -webkit-calc(100% - 63px)">
+             <input id="ts_header"  style="color: black;padding-left: 10px;width: 100%;height: 40px;" type="text"
+                   placeholder='header请求头：如{"Content":"application/json"}' value="">
+        </li>
+         <li >
+            <button type="button"
+                    style="height: 40px;width: 60px;"
+                    class="btn btn-default"><span>Clear</span></button>
+        </li>
+    </ul>
+
+    <br><br><br>
+
+    <ul id="myTab" class="nav nav-tabs" >
+        <li class="active"><a id="click_none" href="#none" data-toggle="tab" >none</a></li>
+        <li ><a href="#form-data" data-toggle="tab" >form-data</a></li>
+        <li ><a href="#x-www-form-urlencoded" data-toggle="tab" >x-www-form-urlencoded</a></li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">raw <b class="caret"></b></a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+                <li><a href="#Text" tabindex="-1" data-toggle="tab">Text</a></li>
+                <li><a href="#JavaScript" tabindex="-1" data-toggle="tab">JavaScript</a></li>
+                <li><a href="#Json" tabindex="-1" data-toggle="tab">Json</a></li>
+                <li><a href="#Html" tabindex="-1" data-toggle="tab">Html</a></li>
+                <li><a href="#Xml" tabindex="-1" data-toggle="tab">Xml</a></li>
+            </ul>
+        </li>
+        <li ><a href="#response" data-toggle="tab" >返回体</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="none" style="text-align: center;color: grey">
+            <h3>这个请求将不会携带任何请求体</h3>
+            <h5>This request will not carry any request-body</h5>
+        </div>
+        <div class="tab-pane fade" id="form-data">
+            <div class="table-responsive" style="width: 98%;color: black">
+                <table class="table table-bordered table-striped" id="mytable" style="background-color:white">
+                    <thead style="color: #337ab7;font-size: x-small">
+                      <tr>
+                        <td style="width: 30%">Key</td>
+                        <td style="width: 50%">Value</td>
+                      </tr>
+                    </thead>
+                    <tbody id="mytbody">
+                      <tr>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn btn-default" id="add"><i class="fa fa-plus"></i> 添加新参数</button>
+            <script>window.jQuery || document.write('<script src="/static/201801271505/js/jquery-1.11.0.min.js"><\/script>')</script>
+            <script type="text/javascript" src="/static/201801271505/js/bootstable.js"></script>
+        </div>
+        <div class="tab-pane fade" id="x-www-form-urlencoded">
+            <div class="table-responsive" style="width: 98%;color: black">
+                <table class="table table-bordered table-striped" id="mytable2" style="background-color:white">
+                    <thead style="color: #337ab7;font-size: x-small">
+                      <tr>
+                        <td style="width: 30%">Key</td>
+                        <td style="width: 50%">Value</td>
+                      </tr>
+                    </thead>
+                    <tbody id="mytbody2">
+                      <tr>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn btn-default" id="add2"><i class="fa fa-plus"></i> 添加新参数</button>
+            <script>window.jQuery || document.write('<script src="/static/201801271505/js/jquery-1.11.0.min.js"><\/script>')</script>
+            <script type="text/javascript" src="/static/201801271505/js/bootstable.js"></script>
+        </div>
+        <div class="tab-pane fade" id="Text">
+            <textarea name="" id="raw_Text" style="color: black;width: 98%;height: 300px"></textarea>
+        </div>
+        <div class="tab-pane fade" id="JavaScript">
+            <textarea name="" id="raw_JavaScript" style="color: black;width: 98%;height: 300px"></textarea>
+        </div>
+        <div class="tab-pane fade" id="Json">
+            <textarea name="" id="raw_Json" style="color: black;width: 98%;height: 300px"></textarea>
+        </div>
+        <div class="tab-pane fade" id="Html">
+            <textarea name="" id="raw_Html" style="color: black;width: 98%;height: 300px"></textarea>
+        </div>
+        <div class="tab-pane fade" id="Xml">
+            <textarea name="" id="raw_Xml" style="color: black;width: 98%;height: 300px"></textarea>
+        </div>
+        <div class="tab-pane fade" id="response">
+            <textarea name="" id="ts_response_body" disabled="disabled" style="background-color: #e4f3f5;color: black;width: 98%;height: 300px"></textarea>
+        </div>
+    </div>
+    <br>
+</div>
+<script>
+    function open_bz(id){
+        document.getElementById('bz_value').value = '';
+        $.get('/open_bz/',{
+            'api_id':id
+        },function (ret){
+            document.getElementById('bz').style.display='block';
+            document.getElementById('which_api').value = id;
+            document.getElementById('bz_value').value = ret;
+        })
+    }
+    function save_bz(){
+        id = document.getElementById('which_api').value
+        bz_value = document.getElementById('bz_value').value
+        $.get('/save_bz',{
+            'api_id':id,
+            'bz_value':bz_value
+        },function (ret){
+            document.getElementById('bz').style.display='none';
+        })
+    }
+    function close_bz(){
+        document.getElementById('bz').style.display='none';
+    }
+</script>
+<!--id = document.getElementById('which_api').value;
+        alter(i);
+        bz_value = document.getElementById('bz_value').value;
+        $.get('/save_bz/',{
+            'api_id':id,
+            'bz_value':bz_value
+        },function (ret){
+            document.getElementById('bz').style.display='none';
+        })-->
 </body>
 </html>

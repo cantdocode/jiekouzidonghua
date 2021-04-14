@@ -250,3 +250,85 @@ word文档标准报告生成
 
 
 代码实现30:接口库-接口列表
+ 开发一个接口列表，用到的设计思路 和之前的项目列表类似：
+数据库中的接口表
+前端循环展示
+增加/删除/设置/复制/备注/健壮性测试 等按钮
+后端实现上述
+
+首先来设计这个接口表：
+一个接口实体应该具有哪些字段呢？
+    1. id ，自动生成无需在意
+    2.project_id ,所属的项目id
+    3.name , 接口名字
+    4.api_method ,请求方式
+    5.api_url , 请求url
+    6.api_header ,请求头
+    7.api_login ,是否需要带登陆状态
+    8.api_host , 域名
+    9.des, 描述
+    10.body_method , 请求体编码格式
+    11.api_body, 请求体
+    12.result , 结果-返回体
+    13.sign , 是否需要启动自定义算法加密
+    14.file_key ,带文件的文件key
+    15.file_name , 带文件的文件名
+    16.public_header , 项目的全局变量-公共请求头
+
+将接口信息返回到前端页面上，只需要将child_json中res数据接受apis从数据库中取出来的数据，filter过滤的project_id = oid
+取出数据，如遍历数据操作一样，将数据展示前端for循环
+
+代码实现31:接口列表继续开发
+先添加备注，复制，异常测试的按钮
+
+新增接口按钮 ， 全局请求头设置 按钮，全局域名设置按钮，
+接口文档解析导入按钮，抓包导入按钮，自定义加密算法按钮，登陆态接口设置按钮等等，很可能后续还会增加。
+P_apis.html 中增加按钮功能
+
+代码实现32:接口列表备注功能
+<button onclick="open_bz('{{ i.id }}')" class="wqrf_button">备注</button>
+
+<div id="bz" style="display:none;width:50%;height:30%;position:fixed;left:25%;top 35%;background-color;#3c4043;box-shadow:4px 4px 8px grey">
+    <input id="which_api" type="text" style="display: none">
+    <textarea name="" id="bz_value" style="width:100%;height:80%" placeholder="请输入该接口备注"></textarea>
+    <button onclick="save_bz()" style="width: 49.9%;height:20%">保存</button>
+    <button onclick="close_bz()" style="width: 49.9%;height:20%">取消</button>
+<!--    注意其中有个隐藏的input，
+这个是用来存储我们打开的接口的id的，
+以便我们点击保存按钮的时候，
+系统知道是要保存哪个接口的备注。
+注意这个div本体也要隐藏，
+只是为了方便调试，
+我们在最后才加上隐藏属性。-->
+</div>
+
+<script>
+    function open_bz(id){
+        document.getElementById('bz_value').value = '';  开始清空，不留未修改的痕迹
+        $.get('/open_bz/',{
+            'api_id':id
+        },function (ret){
+            document.getElementById('bz').style.display='block';
+            document.getElementById('which_api').value = id;
+            document.getElementById('bz_value').value = ret;
+        })
+    }
+    function save_bz(){
+        id = document.getElementById('which_api').value
+        bz_value = document.getElementById('bz_value').value
+        $.get('/save_bz',{
+            'api_id':id,
+            'bz_value':bz_value
+        },function (ret){
+            document.getElementById('bz').style.display='none';
+        })
+    }
+    function close_bz(){
+        document.getElementById('bz').style.display='none';
+    }
+</script>
+
+代码实现33:接口调试
+
+
+代码实现35:请求体

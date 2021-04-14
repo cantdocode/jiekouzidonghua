@@ -15,3 +15,4 @@ admin.site.register(DB_tucao)
 # 注册后同步 makemigrations migrate
 admin.site.register(DB_home_href)
 admin.site.register(DB_project)
+admin.site.register(DB_apis)
